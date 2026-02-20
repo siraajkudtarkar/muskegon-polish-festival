@@ -101,48 +101,48 @@ export const FontFamily = {
 export const Typography = {
   h1: {
     fontFamily: FontFamily.khula,
-    fontSize: 64,
-    lineHeight: Math.round(64 * 1.1), // 110%
+    fontSize: 56,
+    lineHeight: Math.round(56 * 1.1), // 110%
   },
   h2: {
     fontFamily: FontFamily.khula,
-    fontSize: 48,
-    lineHeight: Math.round(48 * 1.1),
+    fontSize: 36,
+    lineHeight: Math.round(36 * 1.1),
   },
   h3: {
     fontFamily: FontFamily.interBold,
-    fontSize: 36,
-    lineHeight: Math.round(36 * 1.4), // 140%
+    fontSize: 28,
+    lineHeight: Math.round(28 * 1.4), // 140%
   },
   h4: {
     fontFamily: FontFamily.interBold,
-    fontSize: 28,
-    lineHeight: Math.round(28 * 1.4),
-  },
-  h5: {
-    fontFamily: FontFamily.interBlack,
-    fontSize: 24,
-    lineHeight: Math.round(24 * 1.4),
-  },
-  h6: {
-    fontFamily: FontFamily.interBold,
-    fontSize: 24,
-    lineHeight: Math.round(24 * 1.4),
-  },
-  body: {
-    fontFamily: FontFamily.interMedium,
-    fontSize: 24,
-    lineHeight: Math.round(24 * 1.4),
-  },
-  small: {
-    fontFamily: FontFamily.interMedium,
     fontSize: 20,
     lineHeight: Math.round(20 * 1.4),
   },
+  h5: {
+    fontFamily: FontFamily.interBlack,
+    fontSize: 18,
+    lineHeight: Math.round(18 * 1.4),
+  },
+  h6: {
+    fontFamily: FontFamily.interBold,
+    fontSize: 18,
+    lineHeight: Math.round(18 * 1.4),
+  },
+  body: {
+    fontFamily: FontFamily.interMedium,
+    fontSize: 18,
+    lineHeight: Math.round(16 * 1.4),
+  },
+  small: {
+    fontFamily: FontFamily.interMedium,
+    fontSize: 15,
+    lineHeight: Math.round(18 * 1.4),
+  },
   button: {
     fontFamily: FontFamily.interMedium,
-    fontSize: 24,
-    lineHeight: Math.round(24 * 1.4),
+    fontSize: 16,
+    lineHeight: Math.round(16 * 1.4),
   },
 } as const;
 
