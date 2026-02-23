@@ -30,22 +30,22 @@ export const typography = {
   },
 
   h3: {
-    fontSize: 24,
+    fontSize: 20,
     lineHeight: 29,
-    fontFamily: "Inter-Bold",
+    fontFamily: "Inter-Black",
     color: colors.text,
   },
 
   pBold: {
     fontSize: 16,
-    lineHeight: 17,
+    lineHeight: 20,
     fontFamily: "Inter-Bold",
     color: colors.text,
   },
 
   p: {
     fontSize: 16,
-    lineHeight: 17,
+    lineHeight: 20,
     fontFamily: "Inter-Regular",
     color: colors.text,
   },
