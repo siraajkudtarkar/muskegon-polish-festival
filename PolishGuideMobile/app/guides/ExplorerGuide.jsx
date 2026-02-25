@@ -1,6 +1,7 @@
 import { Text, View, Image, ScrollView, TouchableOpacity, Linking } from "react-native";
 import { colors } from "../../theme/colors";
 import {typography} from "../../theme/typography";
+import RetryButton from "../../components/Buttons/RetryButton";
 
 export default function Index() {
   return (

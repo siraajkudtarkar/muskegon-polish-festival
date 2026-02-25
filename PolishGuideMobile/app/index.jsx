@@ -27,6 +27,13 @@ const TYPES = {
   D: { personality: "Adventurous", guide: "Adventure Guide to WWII" },
 };
 
+const GUIDE_ROUTE_BY_LETTER = {
+  A: "/guides/EducatorGuide",
+  B: "/guides/WriterGuide",
+  C: "/guides/CrafterGuide",
+  D: "/guides/ExplorerGuide",
+};
+
 // Prefer local assets over URL placeholders so it looks like Figma.
 // These paths match what you merged: PolishGuideMobile/assets/images/QuizPictures/*
 const IMAGES = {
@@ -321,7 +328,6 @@ export default function QuizScreen() {
   const total = QUESTIONS.length;
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState([]);
-  const [finished, setFinished] = useState(false);
 
   const currentQ = QUESTIONS[step];
 
@@ -339,8 +345,21 @@ export default function QuizScreen() {
 
   function goNext() {
     if (!currentChoice) return;
-    if (step < total - 1) setStep((s) => s + 1);
-    else setFinished(true);
+
+    if (step < total - 1) {
+      setStep((s) => s + 1);
+      return;
+    }
+
+    // finishing — ensure the final answer is included
+    const finalAnswers = [
+      ...answers.filter((a) => a.questionId !== currentQ.id),
+      { questionId: currentQ.id, choiceKey: currentChoice },
+    ];
+
+    const result = computeResult(finalAnswers);
+    const route = GUIDE_ROUTE_BY_LETTER[result.letter] ?? "/guides/EducatorGuide";
+    router.push(route);
   }
 
   function goBack() {
@@ -348,23 +367,6 @@ export default function QuizScreen() {
     else router.back();
   }
 
-  // Keep your finished UI for now (we can style it later)
-  if (finished) {
-    const result = computeResult(answers);
-    return (
-      <SafeAreaView style={styles.safeArea}>
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
-          <Text style={typography.h2}>Your Result</Text>
-          <Text style={[typography.p, { marginTop: 12 }]}>
-            Type: <Text style={typography.pBold}>{result.personality}</Text> ({result.letter})
-          </Text>
-          <Text style={[typography.p, { marginTop: 8 }]}>
-            Guide: <Text style={typography.pBold}>{result.guide}</Text>
-          </Text>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
