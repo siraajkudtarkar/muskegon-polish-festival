@@ -1,7 +1,7 @@
 import { Text, View, Image, ScrollView, TouchableOpacity, Linking } from "react-native";
-import { colors } from "../theme/colors";
-import {typography} from "../theme/typography";
-import RetryButton from "../components/Buttons/RetryButton";
+import { colors } from "../../theme/colors";
+import {typography} from "../../theme/typography";
+import RetryButton from "../../components/Buttons/RetryButton";
 
 export default function Index() {
   return (
@@ -22,7 +22,7 @@ export default function Index() {
         </Text>
         </Text>
         <Image
-          source={require("../assets/images/CraftingMobile.png")}
+          source={require("../../assets/images/CraftingMobile.png")}
           style={{ width: 260, height: 260, marginTop: 40 }}
         />
         <Text style={[typography.p, { textAlign: "center", width: 320, marginTop: 20, }]}>
@@ -84,7 +84,7 @@ export default function Index() {
 
         {/* Contents you can explore */}
           {/* Contents you can explore */}
-          <Text style={[typography.h3, { textAlign: "center", width: 360, marginTop: 50, color: "#2F702F" }]}>
+          <Text style={[typography.h3, { textAlign: "center", width: 360, marginTop: 50, color: "#D83F19" }]}>
         Contents you can explore        
         </Text>
         <Text style={[typography.p, { textAlign: "center", width: 350, marginTop: 10, marginBottom: 20, }]}>
@@ -95,7 +95,7 @@ export default function Index() {
         onPress={() => Linking.openURL("https://en.wikipedia.org/wiki/History_of_Poland_during_World_War_I")}
         style = {{width: 360, backgroundColor: colors.white, height: 140, borderRadius: 20, marginTop: 20, alignItems: "center", justifyContent: "center" , flexDirection: "row"}}>
           <Image
-            source={require("../assets/images/GuidePictures/War.png")}
+            source={require("../../assets/images/GuidePictures/War.png")}
             style={{ width: 140, height: 138, borderTopLeftRadius: 20,
               borderBottomLeftRadius: 20, marginLeft: 102, marginRight: 20 }} 
             >
@@ -111,7 +111,7 @@ export default function Index() {
          onPress={() => Linking.openURL("https://neweasterneurope.eu/2018/11/05/independence-poland-1918/")}       
          style = {{width: 360, backgroundColor: colors.white, height: 140, borderRadius: 20, marginTop: 20, alignItems: "center", justifyContent: "center" , flexDirection: "row"}}>
           <Image
-            source={require("../assets/images/GuidePictures/Drawing.png")}
+            source={require("../../assets/images/GuidePictures/Drawing.png")}
             style={{ width: 140, height: 138, borderTopLeftRadius: 20,
               borderBottomLeftRadius: 20, marginLeft: 102, marginRight: 20 }} 
             >
@@ -129,7 +129,7 @@ export default function Index() {
          onPress={() => Linking.openURL("https://www.youtube.com/watch?v=zwSvr90pFA0")}  
          style = {{width: 360, backgroundColor: colors.white, height: 140, borderRadius: 20, marginTop: 20, alignItems: "center", justifyContent: "center" , flexDirection: "row"}}>
           <Image
-            source={require("../assets/images/GuidePictures/Victory.png")}
+            source={require("../../assets/images/GuidePictures/Victory.png")}
             style={{ width: 140, height: 138, borderTopLeftRadius: 20,
               borderBottomLeftRadius: 20, marginLeft: 102, marginRight: 20 }} 
             >
@@ -148,4 +148,3 @@ export default function Index() {
     </ScrollView>
   );
 }
-

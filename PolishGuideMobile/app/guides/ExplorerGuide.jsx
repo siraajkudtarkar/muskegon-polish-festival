@@ -1,7 +1,6 @@
 import { Text, View, Image, ScrollView, TouchableOpacity, Linking } from "react-native";
-import { colors } from "../theme/colors";
-import {typography} from "../theme/typography";
-import RetryButton from "../components/Buttons/RetryButton";
+import { colors } from "../../theme/colors";
+import {typography} from "../../theme/typography";
 
 export default function Index() {
   return (
@@ -16,75 +15,75 @@ export default function Index() {
       >
         <Text style={[typography.h2, { textAlign: "center", width: 350,       marginTop: 40 }]}>
         Your Guide: 
-        <Text style={[typography.h2, { color: "#2F702F" }]}> The Crafter </Text>from the{" "}
-        <Text style={[typography.h2, { color: "#2F702F" }]}>
-        Rebirth of Poland
+        <Text style={[typography.h2, { color: "#D83F19" }]}> The Adventurer </Text>from the{" "}
+        <Text style={[typography.h2, { color: "#D83F19" }]}>
+        World War II & Occupation
         </Text>
         </Text>
         <Image
-          source={require("../assets/images/CraftingMobile.png")}
+          source={require("../../assets/images/ExplorerMobile.png")}
           style={{ width: 260, height: 260, marginTop: 40 }}
         />
         <Text style={[typography.p, { textAlign: "center", width: 320, marginTop: 20, }]}>
-        Based on your answers, your Polish history guide is <Text style={typography.pBold}>The Crafter.</Text>
+        Based on your answers, your Polish history guide is <Text style={typography.pBold}>The Adventurer.</Text>
         </Text>
-        <Text style={[typography.p, { textAlign: "center", width: 360, marginTop: 20, }]}>
-        Discover how Poland rebuilt itself, restoring its independence through hard work, resilience, and a renewed sense of national identity.
+        <Text style={[typography.p, { textAlign: "center", width: 350, marginTop: 20, }]}>
+        Navigate wartime Poland and witness acts of bravery, resistance, and
+        survival from exciting triumphs, to tragic defeats, against the sweep of Nazi aggression.
         </Text>
 
         {/* You May Like */}
-        <Text style={[typography.h3, { textAlign: "center", width: 360, marginTop: 50, color: "#2F702F" }]}>
+        <Text style={[typography.h3, { textAlign: "center", width: 360, marginTop: 50, color: "#D83F19" }]}>
           You May Like
         </Text>
         <View style = {{width: 360, backgroundColor: colors.white, height: 48, borderRadius: 20, marginTop: 20, alignItems: "center", justifyContent: "center" }}>
-          <Text style = {typography.p}> Polish-Soviet War</Text>
+          <Text style = {typography.p}> Stories of Survival</Text>
         </View>
         <View style = {{width: 360, backgroundColor: colors.white, height: 48, borderRadius: 20, marginTop: 20, alignItems: "center", justifyContent: "center" }}>
-          <Text style = {typography.p}>Resurgence of National Pride</Text>
+          <Text style = {typography.p}>Resistance & Underground Movements</Text>
         </View>
 
         {/* Historical Events */}
-        <Text style={[typography.h3, { textAlign: "center", width: 360, marginTop: 50, color: "#2F702F" }]}>
+        <Text style={[typography.h3, { textAlign: "center", width: 360, marginTop: 50, color: "#D83F19" }]}>
         Historical events to explore
         </Text>
 
         <View style = {{width: 360, backgroundColor: colors.white, height: 140, borderRadius: 20, marginTop: 30, alignItems: "center", justifyContent: "center" }}>
-          <View style ={{width: 64, height: 42, backgroundColor: "#2F702F", borderRadius: 20, position: "absolute", top: -16, left: 0, alignItems: "center", justifyContent: "center"}}>
-            <Text style = {[typography.pBold, {color: colors.white, textAlign: "center", width: 64}]}>1914</Text>
+          <View style ={{width: 64, height: 42, backgroundColor: "#D83F19", borderRadius: 20, position: "absolute", top: -16, left: 0, alignItems: "center", justifyContent: "center"}}>
+            <Text style = {[typography.pBold, {color: colors.white, textAlign: "center", width: 64}]}>1939</Text>
           </View>
           <Text style = {[typography.p, {width: 300}]}>
             <Text style= {[typography.pBold, {width: 300}]}>WWI Begins </Text> 
             {"\n"}
-            Poland’s land is controlled by Germany, Russia, and Austro-Hungary.
-          </Text>
+            Germany and the USSR invade Poland.
+             </Text>
         </View>
 
         <View style = {{width: 360, backgroundColor: colors.white, height: 140, borderRadius: 20, marginTop: 30, alignItems: "center", justifyContent: "center" }}>
-        <View style ={{width: 64, height: 42, backgroundColor: "#2F702F", borderRadius: 20, position: "absolute", top: -16, left: 0, alignItems: "center", justifyContent: "center"}}>
-            <Text style = {[typography.pBold, {color: colors.white, textAlign: "center", width: 64}]}>1918</Text>
+        <View style ={{width: 64, height: 42, backgroundColor: "#D83F19", borderRadius: 20, position: "absolute", top: -16, left: 0, alignItems: "center", justifyContent: "center"}}>
+            <Text style = {[typography.pBold, {color: colors.white, textAlign: "center", width: 64}]}>1944</Text>
           </View>
           <Text style = {[typography.p, {width: 300}]}>
-            <Text style= {[typography.pBold, {width: 300}]}>Independence </Text> 
+            <Text style= {[typography.pBold, {width: 300}]}>Warsaw Uprising </Text> 
             {"\n"}
-            Poland regains independence after WWI ends.
-          </Text>
+            A major rebellion against German rule fails.
+            </Text>
         </View>
 
         <View style = {{width: 360, backgroundColor: colors.white, height: 140, borderRadius: 20, marginTop: 30, alignItems: "center", justifyContent: "center" }}>
-        <View style ={{width: 64, height: 42, backgroundColor: "#2F702F", borderRadius: 20, position: "absolute", top: -16, left: 0, alignItems: "center", justifyContent: "center"}}>
-            <Text style = {[typography.pBold, {color: colors.white, textAlign: "center", width: 64}]}>1920</Text>
+        <View style ={{width: 64, height: 42, backgroundColor: "#D83F19", borderRadius: 20, position: "absolute", top: -16, left: 0, alignItems: "center", justifyContent: "center"}}>
+            <Text style = {[typography.pBold, {color: colors.white, textAlign: "center", width: 64}]}>1945</Text>
           </View>
           <Text style = {[typography.p, {width: 300}]}>
-            <Text style= {[typography.pBold, {width: 300}]}>Battle of Warsaw  </Text> 
+            <Text style= {[typography.pBold, {width: 300}]}>WWII Ends </Text> 
             {"\n"}
-            Poland defeats the Soviet Red Army.
-          </Text>
+            Poland falls under Soviet control.
+            </Text>
         </View>
 
 
         {/* Contents you can explore */}
-          {/* Contents you can explore */}
-          <Text style={[typography.h3, { textAlign: "center", width: 360, marginTop: 50, color: "#2F702F" }]}>
+        <Text style={[typography.h3, { textAlign: "center", width: 360, marginTop: 50, color: "#D83F19" }]}>
         Contents you can explore        
         </Text>
         <Text style={[typography.p, { textAlign: "center", width: 350, marginTop: 10, marginBottom: 20, }]}>
@@ -92,54 +91,46 @@ export default function Index() {
         </Text>
 
         <TouchableOpacity 
-        onPress={() => Linking.openURL("https://en.wikipedia.org/wiki/History_of_Poland_during_World_War_I")}
+        onPress={() => Linking.openURL("https://en.wikipedia.org/wiki/Warsaw_Uprising")}
         style = {{width: 360, backgroundColor: colors.white, height: 140, borderRadius: 20, marginTop: 20, alignItems: "center", justifyContent: "center" , flexDirection: "row"}}>
           <Image
-            source={require("../assets/images/GuidePictures/War.png")}
+            source={require("../../assets/images/GuidePictures/Uprising.png")}
             style={{ width: 140, height: 138, borderTopLeftRadius: 20,
               borderBottomLeftRadius: 20, marginLeft: 102, marginRight: 20 }} 
             >
           </Image>
           <Text style= {[typography.pBold, {width: 300}]}>
-          History of Poland 
+          Warsaw Uprising 
           {"\n"}
-          during World War I
+          Overview
               </Text> 
         </TouchableOpacity>
 
         <TouchableOpacity 
-         onPress={() => Linking.openURL("https://neweasterneurope.eu/2018/11/05/independence-poland-1918/")}       
+         onPress={() => Linking.openURL("https://www.youtube.com/watch?v=MPrQdlrCzPY")}       
          style = {{width: 360, backgroundColor: colors.white, height: 140, borderRadius: 20, marginTop: 20, alignItems: "center", justifyContent: "center" , flexDirection: "row"}}>
           <Image
-            source={require("../assets/images/GuidePictures/Drawing.png")}
+            source={require("../../assets/images/GuidePictures/Pianist.png")}
             style={{ width: 140, height: 138, borderTopLeftRadius: 20,
               borderBottomLeftRadius: 20, marginLeft: 102, marginRight: 20 }} 
             >
           </Image>
           <Text style= {[typography.pBold, {width: 300}]}>
-          More than
-          {"\n"}
-          independence. Poland
-          {"\n"}
-          and 1918
+          Scene from the Pianist
               </Text> 
         </TouchableOpacity>
 
         <TouchableOpacity 
-         onPress={() => Linking.openURL("https://www.youtube.com/watch?v=zwSvr90pFA0")}  
+         onPress={() => Linking.openURL("https://www.1944.pl/archiwum-historii-mowionej.html")}  
          style = {{width: 360, backgroundColor: colors.white, height: 140, borderRadius: 20, marginTop: 20, alignItems: "center", justifyContent: "center" , flexDirection: "row"}}>
           <Image
-            source={require("../assets/images/GuidePictures/Victory.png")}
+            source={require("../../assets/images/GuidePictures/Interview.png")}
             style={{ width: 140, height: 138, borderTopLeftRadius: 20,
               borderBottomLeftRadius: 20, marginLeft: 102, marginRight: 20 }} 
             >
           </Image>
-          <Text style= {[typography.pBold, {width: 300}]}>
-            The Battle of Warsaw-
-            {"\n"}
-            Poland’s victory for 
-            {"\n"}
-            Europe’s freedom
+            <Text style= {[typography.pBold, {width: 300}]}>
+            Oral History Archive
               </Text> 
         </TouchableOpacity>
 
@@ -148,4 +139,3 @@ export default function Index() {
     </ScrollView>
   );
 }
-
