@@ -1,6 +1,8 @@
 /**
  * PolishTablet Experience – colors and typography definitions
  * Based on the main colors, era colors, quiz result colors and typography definitions in the design draft.
+ * PolishTablet Experience – colors and typography definitions
+ * Based on the main colors, era colors, quiz result colors and typography definitions in the design draft.
  */
 
 import { Platform } from 'react-native';
@@ -43,10 +45,18 @@ export const Colors = {
   light: {
     text: MainColors.primaryBlack,
     background: MainColors.backgroundBeige,
+    text: MainColors.primaryBlack,
+    background: MainColors.backgroundBeige,
     tint: tintColorLight,
     icon: MainColors.textGrey,
     tabIconDefault: MainColors.textGrey,
+    icon: MainColors.textGrey,
+    tabIconDefault: MainColors.textGrey,
     tabIconSelected: tintColorLight,
+    // Main colors shortcut reference
+    ...MainColors,
+    ...EraColors,
+    ...QuizResultColors,
     // Main colors shortcut reference
     ...MainColors,
     ...EraColors,
@@ -55,10 +65,17 @@ export const Colors = {
   dark: {
     text: MainColors.primaryBlack,
     background: MainColors.backgroundBeige,
+    text: MainColors.primaryBlack,
+    background: MainColors.backgroundBeige,
     tint: tintColorDark,
     icon: MainColors.textGrey,
     tabIconDefault: MainColors.textGrey,
+    icon: MainColors.textGrey,
+    tabIconDefault: MainColors.textGrey,
     tabIconSelected: tintColorDark,
+    ...MainColors,
+    ...EraColors,
+    ...QuizResultColors,
     ...MainColors,
     ...EraColors,
     ...QuizResultColors,
