@@ -45,11 +45,7 @@ export const Colors = {
   light: {
     text: MainColors.primaryBlack,
     background: MainColors.backgroundBeige,
-    text: MainColors.primaryBlack,
-    background: MainColors.backgroundBeige,
     tint: tintColorLight,
-    icon: MainColors.textGrey,
-    tabIconDefault: MainColors.textGrey,
     icon: MainColors.textGrey,
     tabIconDefault: MainColors.textGrey,
     tabIconSelected: tintColorLight,
@@ -65,11 +61,7 @@ export const Colors = {
   dark: {
     text: MainColors.primaryBlack,
     background: MainColors.backgroundBeige,
-    text: MainColors.primaryBlack,
-    background: MainColors.backgroundBeige,
     tint: tintColorDark,
-    icon: MainColors.textGrey,
-    tabIconDefault: MainColors.textGrey,
     icon: MainColors.textGrey,
     tabIconDefault: MainColors.textGrey,
     tabIconSelected: tintColorDark,
