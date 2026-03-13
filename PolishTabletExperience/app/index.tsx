@@ -98,5 +98,17 @@
 // });
 
 import TimelineScreen from '@/components/screens/timeline-screen';
+import ContentScreen from '@/screens/ContentScreen';
+import { useState } from 'react';
 
-export default TimelineScreen;
+type HomeView = 'timeline' | 'content';
+
+export default function IndexScreen() {
+	const [view, setView] = useState<HomeView>('timeline');
+
+	if (view === 'content') {
+		return <ContentScreen onPressTimeline={() => setView('timeline')} />;
+	}
+
+	return <TimelineScreen onPressContent={() => setView('content')} />;
+}

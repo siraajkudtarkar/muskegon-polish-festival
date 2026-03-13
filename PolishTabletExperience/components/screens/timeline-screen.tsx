@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -12,6 +13,10 @@ type EraDefinition = {
   timeframe: string;
   years: number[];
   color: string;
+};
+
+type TimelineScreenProps = {
+  onPressContent?: () => void;
 };
 
 const ERA_DEFINITIONS: EraDefinition[] = [
@@ -106,7 +111,8 @@ function getEraBackgroundPosition(year: number) {
   return LATE_MAP_POSITION;
 }
 
-export default function TimelineScreen() {
+export default function TimelineScreen({ onPressContent }: TimelineScreenProps) {
+  const router = useRouter();
   const [selectedIndex, setSelectedIndex] = useState(DEFAULT_INDEX);
   const selectedEra = useMemo(() => ERA_ITEMS[selectedIndex] ?? ERA_ITEMS[0], [selectedIndex]);
   const selectedEraDefinition = ERA_BY_NAME[selectedEra.label] ?? {
@@ -133,9 +139,13 @@ export default function TimelineScreen() {
 
       <SafeAreaView style={styles.container}>
         <View style={styles.mapArea}>
-          <View style={styles.homeButton}>
+          <TouchableOpacity
+            style={styles.homeButton}
+            onPress={() => router.push('/modal')}
+            activeOpacity={0.85}
+          >
             <Text style={styles.homeGlyph}>⌂</Text>
-          </View>
+          </TouchableOpacity>
 
           <View style={styles.eraCard}>
             <Text style={[styles.eraYear, { color: selectedEra.color }]}>{selectedEra.year}</Text>
@@ -160,6 +170,22 @@ export default function TimelineScreen() {
             minGapPixels={20}
             onSelect={(_, index) => setSelectedIndex(index)}
           />
+        </View>
+
+        <View style={styles.bottomToggleContainer}>
+          <View style={styles.toggleWrapper}>
+            <View style={styles.activeToggle}>
+              <Text style={styles.activeToggleText}>Timeline</Text>
+            </View>
+
+            <TouchableOpacity
+              style={styles.inactiveToggle}
+              onPress={() => onPressContent?.()}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.inactiveToggleText}>Content</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </SafeAreaView>
     </View>
@@ -242,5 +268,39 @@ const styles = StyleSheet.create({
     paddingTop: 4,
     paddingBottom: 8,
     borderTopWidth: 0,
+  },
+  bottomToggleContainer: {
+    position: 'absolute',
+    bottom: 116,
+    left: 20,
+  },
+  toggleWrapper: {
+    flexDirection: 'row',
+    backgroundColor: '#ffffff',
+    borderRadius: 40,
+    padding: 2,
+  },
+  inactiveToggle: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 40,
+  },
+  activeToggle: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 40,
+    backgroundColor: '#2E2A2A',
+  },
+  activeToggleText: {
+    color: '#ffffff',
+    fontSize: 16,
+    lineHeight: 22,
+    fontFamily: FontFamily.interMedium,
+  },
+  inactiveToggleText: {
+    color: '#2E2A2A',
+    fontSize: 16,
+    lineHeight: 22,
+    fontFamily: FontFamily.interMedium,
   },
 });
