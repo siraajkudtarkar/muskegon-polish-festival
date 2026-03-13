@@ -97,8 +97,6 @@
 //   },
 // });
 
-import ContentScreen from "../screens/ContentScreen";
+import TimelineScreen from '@/components/screens/timeline-screen';
 
-export default function TabIndex() {
-  return <ContentScreen />;
-}
+export default TimelineScreen;
