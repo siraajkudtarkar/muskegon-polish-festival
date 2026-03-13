@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
 
 import EraTabBar from "../components/EraTabBar";
 import ContentCard from "../components/ContentCard";
@@ -15,7 +16,12 @@ type ColumnItem = {
   bottom?: (typeof MOCK_CARDS)[number];
 };
 
-export default function ContentScreen() {
+type ContentScreenProps = {
+  onPressTimeline?: () => void;
+};
+
+export default function ContentScreen({ onPressTimeline }: ContentScreenProps) {
+  const router = useRouter();
   const [selectedEra, setSelectedEra] = useState<EraKey>("all");
 
   const currentTitle =
@@ -101,7 +107,7 @@ export default function ContentScreen() {
         <View style={styles.toggleWrapper}>
           <TouchableOpacity
             style={styles.inactiveToggle}
-            onPress={() => console.log("Go to Timeline")}
+            onPress={() => (onPressTimeline ? onPressTimeline() : router.push("/"))}
             activeOpacity={0.85}
           >
             <ThemedText type="button" style={{ color: MainColors.primaryBlack }}>
@@ -128,7 +134,7 @@ export default function ContentScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: MainColors.backgroundGrey,
+    backgroundColor: MainColors.backgroundBeige,
     paddingTop: 20,
   },
 
