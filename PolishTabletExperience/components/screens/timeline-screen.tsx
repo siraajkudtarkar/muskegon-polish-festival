@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TimelineItem, TimelineScrubber } from '@/components/timeline-scrubber';
 import { FontFamily } from '@/constants/theme';
+import { EraKey } from '@/constants/contentData';
 
 type EraDefinition = {
   name: string;
@@ -16,7 +17,8 @@ type EraDefinition = {
 };
 
 type TimelineScreenProps = {
-  onPressContent?: () => void;
+  onPressContent?: (era: EraKey) => void;
+  initialYear?: number;
 };
 
 const ERA_DEFINITIONS: EraDefinition[] = [
@@ -85,7 +87,7 @@ const ERA_BY_NAME = Object.fromEntries(
 ) as Record<string, EraDefinition>;
 
 const DEFAULT_INDEX = Math.max(
-  ERA_ITEMS.findIndex((item) => item.year === 1918),
+  ERA_ITEMS.findIndex((item) => item.year === 1635),
   0
 );
 
@@ -111,9 +113,39 @@ function getEraBackgroundPosition(year: number) {
   return LATE_MAP_POSITION;
 }
 
-export default function TimelineScreen({ onPressContent }: TimelineScreenProps) {
+function getEraKeyFromLabel(label: string): EraKey {
+  switch (label) {
+    case 'The Golden Age':
+      return 'golden_age';
+    case 'The Era of Wars & Partitions':
+      return 'wars_partitions';
+    case 'Struggle for Independence':
+      return 'independence';
+    case 'Rebirth of Poland':
+      return 'rebirth';
+    case 'World War II & Occupation':
+      return 'ww2';
+    case 'Communist Poland':
+      return 'communist';
+    case 'Modern Poland':
+      return 'modern';
+    default:
+      return 'all';
+  }
+}
+
+function getIndexFromYear(year: number) {
+  const foundIndex = ERA_ITEMS.findIndex((item) => item.year === year);
+  return foundIndex >= 0 ? foundIndex : DEFAULT_INDEX;
+}
+
+export default function TimelineScreen({ onPressContent,
+  initialYear = 1635, }: TimelineScreenProps) {
   const router = useRouter();
-  const [selectedIndex, setSelectedIndex] = useState(DEFAULT_INDEX);
+  const [selectedIndex, setSelectedIndex] = useState(() => getIndexFromYear(initialYear));
+  useEffect(() => {
+    setSelectedIndex(getIndexFromYear(initialYear));
+  }, [initialYear]);
   const selectedEra = useMemo(() => ERA_ITEMS[selectedIndex] ?? ERA_ITEMS[0], [selectedIndex]);
   const selectedEraDefinition = ERA_BY_NAME[selectedEra.label] ?? {
     name: selectedEra.label,
@@ -127,6 +159,8 @@ export default function TimelineScreen({ onPressContent }: TimelineScreenProps) 
     () => getEraBackgroundPosition(selectedEra.year),
     [selectedEra.year]
   );
+
+  const targetEraKey = getEraKeyFromLabel(selectedEra.label);
 
   return (
     <View style={styles.screen}>
@@ -163,8 +197,9 @@ export default function TimelineScreen({ onPressContent }: TimelineScreenProps) 
 
         <View style={styles.timelinePanel}>
           <TimelineScrubber
+            key={`timeline-${initialYear}`}
             items={ERA_ITEMS}
-            initialIndex={DEFAULT_INDEX}
+            initialIndex={getIndexFromYear(initialYear)}
             maxGapYears={40}
             pixelsPerYear={3.8}
             minGapPixels={20}
@@ -180,7 +215,7 @@ export default function TimelineScreen({ onPressContent }: TimelineScreenProps) 
 
             <TouchableOpacity
               style={styles.inactiveToggle}
-              onPress={() => onPressContent?.()}
+              onPress={() => onPressContent?.(targetEraKey)}
               activeOpacity={0.85}
             >
               <Text style={styles.inactiveToggleText}>Content</Text>

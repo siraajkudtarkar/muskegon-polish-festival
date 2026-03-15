@@ -11,11 +11,14 @@ type Props = {
 };
 
 export default function ContentCard({ item, onPress }: Props) {
+  const imageSource =
+    typeof item.imageUri === "string" ? { uri: item.imageUri } : item.imageUri;
+
   return (
     <TouchableOpacity style={styles.card} activeOpacity={0.85} onPress={onPress}>
       {/* Image */}
       <View style={styles.imageWrapper}>
-        <Image source={{ uri: item.imageUri }} style={styles.image} />
+        <Image source={imageSource} style={styles.image} />
       </View>
 
       {/* Text area */}
@@ -74,7 +77,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
 
-  // 只管颜色/布局，不管字号（字号由 type 决定）
   titleTop: {
     color: MainColors.primaryBlack,
     flexShrink: 1,
@@ -86,5 +88,6 @@ const styles = StyleSheet.create({
 
   titleBottom: {
     color: MainColors.primaryBlack,
+    lineHeight: 18,
   },
 });

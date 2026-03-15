@@ -1,6 +1,6 @@
 // screens/ContentScreen.tsx
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 
@@ -17,12 +17,28 @@ type ColumnItem = {
 };
 
 type ContentScreenProps = {
-  onPressTimeline?: () => void;
+  onPressTimeline?: (year: number) => void;
+  initialEra?: EraKey;
 };
 
-export default function ContentScreen({ onPressTimeline }: ContentScreenProps) {
+const earliestYearByEra: Record<EraKey, number> = {
+  all: 1635,
+  golden_age: 1635,
+  wars_partitions: 1686,
+  independence: 1804,
+  rebirth: 1914,
+  ww2: 1939,
+  communist: 1948,
+  modern: 1991,
+};
+
+export default function ContentScreen({ onPressTimeline,
+  initialEra = "all", }: ContentScreenProps) {
   const router = useRouter();
-  const [selectedEra, setSelectedEra] = useState<EraKey>("all");
+  const [selectedEra, setSelectedEra] = useState<EraKey>(initialEra);
+  useEffect(() => {
+    setSelectedEra(initialEra);
+  }, [initialEra]);
 
   const currentTitle =
     selectedEra === "all"
@@ -57,6 +73,8 @@ export default function ContentScreen({ onPressTimeline }: ContentScreenProps) {
     }
     return result;
   }, [filteredCards]);
+
+  const targetYear = earliestYearByEra[selectedEra] ?? 1635;
 
   return (
     <View style={styles.container}>
@@ -107,7 +125,9 @@ export default function ContentScreen({ onPressTimeline }: ContentScreenProps) {
         <View style={styles.toggleWrapper}>
           <TouchableOpacity
             style={styles.inactiveToggle}
-            onPress={() => (onPressTimeline ? onPressTimeline() : router.push("/"))}
+             onPress={() =>
+              onPressTimeline ? onPressTimeline(targetYear) : router.push("/")
+            }
             activeOpacity={0.85}
           >
             <ThemedText type="button" style={{ color: MainColors.primaryBlack }}>
@@ -134,7 +154,7 @@ export default function ContentScreen({ onPressTimeline }: ContentScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: MainColors.backgroundBeige,
+    backgroundColor: MainColors.backgroundGrey,
     paddingTop: 20,
   },
 
@@ -162,7 +182,7 @@ const styles = StyleSheet.create({
 
   bottomToggleContainer: {
     position: "absolute",
-    bottom: 26,
+    bottom: 18,
     left: 20,
   },
 
