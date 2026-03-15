@@ -6,14 +6,26 @@ import { useRouter } from "expo-router";
 
 import EraTabBar from "../components/EraTabBar";
 import ContentCard from "../components/ContentCard";
-import { ERA_TABS, MOCK_CARDS, EraKey } from "../constants/contentData";
+// import { ERA_TABS, MOCK_CARDS, EraKey } from "../constants/contentData";
+import { ERA_TABS, EraKey } from "../constants/contentData";
+import { sanityClient } from "../lib/sanityClient";
 
 import { ThemedText } from "@/components/themed-text";
 import { MainColors, EraColors } from "@/constants/theme";
 
+type SanityCard = {
+  id: string;
+  eraKey: EraKey;
+  yearLabel?: string;
+  titleTop?: string;
+  titleBottom: string;
+  imageUrl?: string;
+  order: number;
+};
+
 type ColumnItem = {
-  top?: (typeof MOCK_CARDS)[number];
-  bottom?: (typeof MOCK_CARDS)[number];
+  top?: SanityCard;
+  bottom?: SanityCard;
 };
 
 type ContentScreenProps = {
@@ -32,20 +44,46 @@ const earliestYearByEra: Record<EraKey, number> = {
   modern: 1991,
 };
 
-export default function ContentScreen({ onPressTimeline,
-  initialEra = "all", }: ContentScreenProps) {
+const CONTENT_CARDS_QUERY = `*[_type == "contentCard"] | order(order asc){
+  id,
+  eraKey,
+  yearLabel,
+  titleTop,
+  titleBottom,
+  order,
+  "imageUrl": image.asset->url
+}`;
+
+export default function ContentScreen({
+  onPressTimeline,
+  initialEra = "all",
+}: ContentScreenProps) {
   const router = useRouter();
   const [selectedEra, setSelectedEra] = useState<EraKey>(initialEra);
+  const [cards, setCards] = useState<SanityCard[]>([]);
+
   useEffect(() => {
     setSelectedEra(initialEra);
   }, [initialEra]);
+
+  useEffect(() => {
+    const loadCards = async () => {
+      try {
+        const data = await sanityClient.fetch<SanityCard[]>(CONTENT_CARDS_QUERY);
+        setCards(data);
+      } catch (error) {
+        console.error("Failed to fetch content cards from Sanity:", error);
+      }
+    };
+
+    loadCards();
+  }, []);
 
   const currentTitle =
     selectedEra === "all"
       ? "Title"
       : ERA_TABS.find((tab) => tab.key === selectedEra)?.label ?? "Title";
 
-  // Era → Color
   const eraColorMap: Record<string, string> = {
     golden_age: EraColors.goldenAge,
     wars_partitions: EraColors.warsAndPartitions,
@@ -62,9 +100,9 @@ export default function ContentScreen({ onPressTimeline,
       : eraColorMap[selectedEra] ?? MainColors.pointRed;
 
   const filteredCards = useMemo(() => {
-    if (selectedEra === "all") return MOCK_CARDS;
-    return MOCK_CARDS.filter((card) => card.eraKey === selectedEra);
-  }, [selectedEra]);
+    if (selectedEra === "all") return cards;
+    return cards.filter((card) => card.eraKey === selectedEra);
+  }, [selectedEra, cards]);
 
   const columns: ColumnItem[] = useMemo(() => {
     const result: ColumnItem[] = [];
@@ -78,14 +116,12 @@ export default function ContentScreen({ onPressTimeline,
 
   return (
     <View style={styles.container}>
-      {/* Era Tabs */}
       <EraTabBar
         selectedKey={selectedEra}
         onSelect={setSelectedEra}
         activeColor={activeEraColor}
       />
 
-      {/* Page Title */}
       <ThemedText
         type="h4"
         style={[styles.pageTitle, { color: MainColors.primaryBlack }]}
@@ -93,7 +129,6 @@ export default function ContentScreen({ onPressTimeline,
         {currentTitle}
       </ThemedText>
 
-      {/* Two-row horizontal list */}
       <FlatList
         data={columns}
         keyExtractor={(_, idx) => `col-${idx}`}
@@ -120,12 +155,11 @@ export default function ContentScreen({ onPressTimeline,
         )}
       />
 
-      {/* Bottom Toggle */}
       <View style={styles.bottomToggleContainer}>
         <View style={styles.toggleWrapper}>
           <TouchableOpacity
             style={styles.inactiveToggle}
-             onPress={() =>
+            onPress={() =>
               onPressTimeline ? onPressTimeline(targetYear) : router.push("/")
             }
             activeOpacity={0.85}

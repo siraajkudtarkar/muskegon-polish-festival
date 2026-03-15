@@ -1,24 +1,31 @@
-// components/ContentCard.tsx
-
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { ContentCardItem } from "../constants/contentData";
 import { ThemedText } from "@/components/themed-text";
 import { MainColors } from "@/constants/theme";
 
+type CardItem = {
+  id: string;
+  eraKey: string;
+  yearLabel?: string;
+  titleTop?: string;
+  titleBottom: string;
+  imageUrl?: string;
+};
+
 type Props = {
-  item: ContentCardItem;
+  item: CardItem;
   onPress?: () => void;
 };
 
 export default function ContentCard({ item, onPress }: Props) {
-  const imageSource =
-    typeof item.imageUri === "string" ? { uri: item.imageUri } : item.imageUri;
+  const imageSource = item.imageUrl
+    ? { uri: item.imageUrl }
+    : undefined;
 
   return (
     <TouchableOpacity style={styles.card} activeOpacity={0.85} onPress={onPress}>
       {/* Image */}
       <View style={styles.imageWrapper}>
-        <Image source={imageSource} style={styles.image} />
+        {imageSource && <Image source={imageSource} style={styles.image} />}
       </View>
 
       {/* Text area */}
