@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
 
 import EraTabBar from "../components/EraTabBar";
 import ContentCard from "../components/ContentCard";
@@ -16,6 +17,7 @@ type ColumnItem = {
 };
 
 export default function ContentScreen() {
+  const router = useRouter();
   const [selectedEra, setSelectedEra] = useState<EraKey>("all");
 
   const currentTitle =
@@ -41,7 +43,7 @@ export default function ContentScreen() {
 
   const filteredCards = useMemo(() => {
     if (selectedEra === "all") return MOCK_CARDS;
-    return MOCK_CARDS.filter((card) => card.eraKey === selectedEra);
+    return MOCK_CARDS.filter((card) => card.eraKeys.includes(selectedEra));
   }, [selectedEra]);
 
   const columns: ColumnItem[] = useMemo(() => {
@@ -81,14 +83,26 @@ export default function ContentScreen() {
             {item.top && (
               <ContentCard
                 item={item.top}
-                onPress={() => console.log("Pressed:", item.top?.id)}
+                onPress={() =>
+                  item.top?.id &&
+                  router.push({
+                    pathname: "/poi-detail",
+                    params: { id: String(item.top.id) },
+                  })
+                }
               />
             )}
             {item.bottom && (
               <View style={styles.cardGap}>
                 <ContentCard
                   item={item.bottom}
-                  onPress={() => console.log("Pressed:", item.bottom?.id)}
+                  onPress={() =>
+                    item.bottom?.id &&
+                    router.push({
+                      pathname: "/poi-detail",
+                      params: { id: String(item.bottom.id) },
+                    })
+                  }
                 />
               </View>
             )}

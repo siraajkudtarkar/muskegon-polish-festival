@@ -30,6 +30,7 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: false, // close default index header on the top
+          animation: 'fade',
         }}
       />
       <StatusBar style="auto" />
