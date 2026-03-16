@@ -30,7 +30,7 @@ export type PoiDetail = {
     eraKeys: EraKeyNoAll[];
     yearLabel: string;
     titleTop: string;
-    // Full paragraph used on the main detail (左侧大图下的长文案)
+    // Full paragraph used on the main detail under the large image on the left
     description: string;
     // Short summary used when this POI appears as "Related Content"
     summary?: string;
