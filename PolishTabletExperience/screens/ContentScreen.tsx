@@ -1,6 +1,6 @@
 // screens/ContentScreen.tsx
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 
@@ -16,9 +16,29 @@ type ColumnItem = {
   bottom?: (typeof MOCK_CARDS)[number];
 };
 
-export default function ContentScreen() {
+type ContentScreenProps = {
+  onPressTimeline?: (year: number) => void;
+  initialEra?: EraKey;
+};
+
+const earliestYearByEra: Record<EraKey, number> = {
+  all: 1635,
+  golden_age: 1635,
+  wars_partitions: 1686,
+  independence: 1804,
+  rebirth: 1914,
+  ww2: 1939,
+  communist: 1948,
+  modern: 1991,
+};
+
+export default function ContentScreen({ onPressTimeline,
+  initialEra = "all", }: ContentScreenProps) {
   const router = useRouter();
-  const [selectedEra, setSelectedEra] = useState<EraKey>("all");
+  const [selectedEra, setSelectedEra] = useState<EraKey>(initialEra);
+  useEffect(() => {
+    setSelectedEra(initialEra);
+  }, [initialEra]);
 
   const currentTitle =
     selectedEra === "all"
@@ -53,6 +73,8 @@ export default function ContentScreen() {
     }
     return result;
   }, [filteredCards]);
+
+  const targetYear = earliestYearByEra[selectedEra] ?? 1635;
 
   return (
     <View style={styles.container}>
@@ -115,7 +137,9 @@ export default function ContentScreen() {
         <View style={styles.toggleWrapper}>
           <TouchableOpacity
             style={styles.inactiveToggle}
-            onPress={() => console.log("Go to Timeline")}
+             onPress={() =>
+              onPressTimeline ? onPressTimeline(targetYear) : router.push("/")
+            }
             activeOpacity={0.85}
           >
             <ThemedText type="button" style={{ color: MainColors.primaryBlack }}>
@@ -170,7 +194,7 @@ const styles = StyleSheet.create({
 
   bottomToggleContainer: {
     position: "absolute",
-    bottom: 26,
+    bottom: 18,
     left: 20,
   },
 
