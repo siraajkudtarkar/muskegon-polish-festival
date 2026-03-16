@@ -16,7 +16,7 @@ export default function ContentCard({ item, onPress }: Props) {
 
   return (
     <TouchableOpacity style={styles.card} activeOpacity={0.85} onPress={onPress}>
-      {/* Image: imageUri 可能是 require() 的本地资源（number）或远程 URL（string） */}
+      {/* Image: imageUri can be a local require() resource (number) or a remote URL (string) */}
       <View style={styles.imageWrapper}>
         <Image
           source={
