@@ -63,7 +63,7 @@ export default function ContentScreen({ onPressTimeline,
 
   const filteredCards = useMemo(() => {
     if (selectedEra === "all") return MOCK_CARDS;
-    return MOCK_CARDS.filter((card) => card.eraKey === selectedEra);
+    return MOCK_CARDS.filter((card) => card.eraKeys.includes(selectedEra));
   }, [selectedEra]);
 
   const columns: ColumnItem[] = useMemo(() => {
@@ -105,14 +105,26 @@ export default function ContentScreen({ onPressTimeline,
             {item.top && (
               <ContentCard
                 item={item.top}
-                onPress={() => console.log("Pressed:", item.top?.id)}
+                onPress={() =>
+                  item.top?.id &&
+                  router.push({
+                    pathname: "/poi-detail",
+                    params: { id: String(item.top.id) },
+                  })
+                }
               />
             )}
             {item.bottom && (
               <View style={styles.cardGap}>
                 <ContentCard
                   item={item.bottom}
-                  onPress={() => console.log("Pressed:", item.bottom?.id)}
+                  onPress={() =>
+                    item.bottom?.id &&
+                    router.push({
+                      pathname: "/poi-detail",
+                      params: { id: String(item.bottom.id) },
+                    })
+                  }
                 />
               </View>
             )}

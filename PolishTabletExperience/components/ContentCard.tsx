@@ -16,9 +16,12 @@ export default function ContentCard({ item, onPress }: Props) {
 
   return (
     <TouchableOpacity style={styles.card} activeOpacity={0.85} onPress={onPress}>
-      {/* Image */}
+      {/* Image: imageUri can be a local require() resource (number) or a remote URL (string) */}
       <View style={styles.imageWrapper}>
-        <Image source={imageSource} style={styles.image} />
+        <Image
+          source={imageSource}
+          style={styles.image}
+        />
       </View>
 
       {/* Text area */}
