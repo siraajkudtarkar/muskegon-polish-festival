@@ -374,7 +374,7 @@ export const POI_DETAILS: Record<string, PoiDetail> = {
     },
     c34: {
         id: "c34",
-        eraKeys: ["communist"],
+        eraKeys: ["communist", "modern"],
         yearLabel: "1945",
         titleTop: "Did You Know?",
         description: "Despite helping defeat Hitler, Poland was handed over to the Soviets in 1945 and a communist puppet government was installed which cruelly repressed the people.",
@@ -384,7 +384,7 @@ export const POI_DETAILS: Record<string, PoiDetail> = {
     },
     c35: {
         id: "c35",
-        eraKeys: ["communist", "modern"],
+        eraKeys: ["communist"],
         yearLabel: "1978",
         titleTop: "Did You Know?",
         description: "The Poles continued a non-violent fight for freedom and the Catholic Church emerged as a bulwark of resistance to totalitarianism. In 1978, Karol Wojtyła was elected as Pope John Paul II, the first non-Italian pope in 450 years. The new pope encouraged non-violent resistance based on universal moral principles that united society and inspired the creation of the Solidarity free trade movement in 1980.",
@@ -392,16 +392,6 @@ export const POI_DETAILS: Record<string, PoiDetail> = {
         mainImage: require("../assets/content_images/CommunistPoland/CommunistPoland_2.png"),
         relatedIds: ["c34", "c36","c37"],
     },
-    // c36: {
-    //     id: "c36",
-    //     eraKeys: ["modern"],
-    //     yearLabel: "1945",
-    //     titleTop: "Did You Know?",
-    //     description: "Despite helping defeat Hitler, Poland was handed over to the Soviets in 1945 and a communist puppet government was installed which cruelly repressed the people.",
-    //     summary: "Poland oppressed under Soviet control",
-    //     mainImage: require("../assets/content_images/ModernPoland/ModernPoland_1.png"),
-    //     relatedIds: ["c8", "c9"],
-    // },
     c36: {
         id: "c36",
         eraKeys: ["modern"],
@@ -432,7 +422,7 @@ export const POI_DETAILS: Record<string, PoiDetail> = {
         mainImage: require("../assets/content_images/ModernPoland/ModernPoland_4.png"),
         relatedIds: ["c34", "c35","c36"],
     },
-}
+};
 
 
 export const ERA_TABS: EraTab[] = [
@@ -728,14 +718,6 @@ export const MOCK_CARDS: ContentCardItem[] = [
         titleBottom: "Pope inspired Polish non-violent resistance",
         imageUri: require("../assets/content_images/CommunistPoland/CommunistPoland_2.png"),
     },
-    // {
-    //     id: "c36",
-    //     eraKeys: ["modern"],
-    //     yearLabel: "",
-    //     titleTop: "Did You Know?",
-    //     titleBottom: "Poland oppressed under Soviet control",
-    //     imageUri: require("../assets/content_images/ModernPoland/ModernPoland_1.png"),
-    // },
     {
         id: "c36",
         eraKeys: ["modern"],
@@ -745,7 +727,7 @@ export const MOCK_CARDS: ContentCardItem[] = [
         imageUri: require("../assets/content_images/ModernPoland/ModernPoland_2.png"),
     },
     {
-    id: "c37",
+        id: "c37",
         eraKeys: ["modern"],
         yearLabel: "",
         titleTop: "Did You Know?",
