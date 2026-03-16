@@ -19,11 +19,7 @@ export default function ContentCard({ item, onPress }: Props) {
       {/* Image: imageUri can be a local require() resource (number) or a remote URL (string) */}
       <View style={styles.imageWrapper}>
         <Image
-          source={
-            typeof item.imageUri === "number"
-              ? item.imageUri
-              : { uri: String(item.imageUri) }
-          }
+          source={imageSource}
           style={styles.image}
         />
       </View>
