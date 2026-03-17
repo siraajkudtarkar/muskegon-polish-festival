@@ -10,6 +10,10 @@ import { EraKey } from '@/constants/contentData';
 
 const HOME_ICON = require('@/assets/General_Icons/ Home_icon.svg');
 
+import MapHotspot from '@/components/MapHotspot';
+
+
+
 type EraDefinition = {
   name: string;
   summary: string;
@@ -119,21 +123,23 @@ const MAP_1948 = require('@/assets/maps_svg/1948, 1951, 1960, 1970, 1975, 1980, 
 const MAP_1991 = require('@/assets/maps_svg/1991.svg');
 const MAP_1993 = require('@/assets/maps_svg/1993, 2002, 2011.svg');
 
-
 const RIGHT_ALIGNED_MAP_POSITION = { right: 0, top: '32%' };
+
+const CULTURE_ICON = require('@/assets/POI_Icon/POI_Culture.svg');
+const HOTSPOT_IMAGE = require('@/assets/content_images/CommunistPoland/CommunistPoland_1.png');
 
 const MAP_BY_FLOOR_YEAR: Array<{ startYear: number; source: number }> = [
   { startYear: 1635, source: MAP_1635 },
   { startYear: 1686, source: MAP_1699 },
-  {startYear: 1772, source: MAP_1772 },
-  {startYear: 1793, source: MAP_1793 },
-  {startYear: 1795, source: MAP_1795 },
-  {startYear: 1807, source: MAP_1807 },
-  {startYear: 1815, source: MAP_1815 },
-  {startYear: 1831, source: MAP_1831 },
-  {startYear: 1846, source: MAP_1846 },
-  {startYear: 1848, source: MAP_1848 },
-  {startYear: 1867, source: MAP_1867 },
+  { startYear: 1772, source: MAP_1772 },
+  { startYear: 1793, source: MAP_1793 },
+  { startYear: 1795, source: MAP_1795 },
+  { startYear: 1807, source: MAP_1807 },
+  { startYear: 1815, source: MAP_1815 },
+  { startYear: 1831, source: MAP_1831 },
+  { startYear: 1846, source: MAP_1846 },
+  { startYear: 1848, source: MAP_1848 },
+  { startYear: 1867, source: MAP_1867 },
   { startYear: 1878, source: MAP_1878 },
   { startYear: 1917, source: MAP_1917 },
   { startYear: 1918, source: MAP_1918 },
@@ -205,11 +211,12 @@ export default function TimelineScreen({ onPressContent,
 
   const targetEraKey = getEraKeyFromLabel(selectedEra.label);
 
+  const [poiOpen, setPoiOpen] = useState(false);
+
   return (
     <View style={styles.screen}>
       <SafeAreaView style={styles.container}>
         <View style={styles.mapArea}>
-          {/* 🧱 MODIFIED: 背景图只放在上方 mapArea 内，底部刚好贴着 timeline 区域 */}
           <Image
             source={selectedEraMap}
             style={styles.backgroundImage}
@@ -218,6 +225,14 @@ export default function TimelineScreen({ onPressContent,
             pointerEvents="none"
           />
 
+          <MapHotspot
+            top={500}
+            left={600}
+            iconSource={CULTURE_ICON}
+            imageSource={HOTSPOT_IMAGE}
+            isOpen={poiOpen}
+            onHotspotPress={() => setPoiOpen(!poiOpen)}
+          />
           <TouchableOpacity
             style={styles.homeButton}
             onPress={() => router.push('/modal')}
@@ -274,6 +289,8 @@ export default function TimelineScreen({ onPressContent,
             />
           </View>
         </View>
+
+        
       </SafeAreaView>
     </View>
   );
