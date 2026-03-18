@@ -188,9 +188,6 @@ function computeResult(answers) {
 function QuizStepper({ currentStep, totalSteps }) {
   return (
     <View style={styles.stepperBlock}>
-      <Text style={styles.stepCountText}>
-        Question {currentStep + 1} of {totalSteps}
-      </Text>
 
       <View style={styles.stepperRow}>
         {Array.from({ length: totalSteps }).map((_, index) => {
