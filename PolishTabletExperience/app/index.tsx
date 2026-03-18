@@ -101,11 +101,13 @@ import TimelineScreen from '@/components/screens/timeline-screen';
 import ContentScreen from '@/screens/ContentScreen';
 import { useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
+import { EraKey } from '@/constants/contentData';
 
 type HomeView = 'timeline' | 'content';
 
 export default function IndexScreen() {
 	const [view, setView] = useState<HomeView>('timeline');
+	const [contentEra, setContentEra] = useState<EraKey>('all');
 	const [timelineYear, setTimelineYear] = useState<number | undefined>(1918);
 	const { year } = useLocalSearchParams<{ year?: string }>();
 
@@ -121,8 +123,11 @@ export default function IndexScreen() {
 
 	return (
 		<TimelineScreen
-		  onPressContent={() => setView('content')}
 		  initialYear={selectedYear}
+		  onPressContent={(era) => {
+			setContentEra(era);
+			setView('content');
+		}}
 		/>
 	  );
 

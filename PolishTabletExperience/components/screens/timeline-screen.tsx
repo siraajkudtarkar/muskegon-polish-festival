@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
@@ -191,17 +191,22 @@ function getIndexFromYear(year: number) {
   return foundIndex >= 0 ? foundIndex : DEFAULT_INDEX;
 }
 
-export default function TimelineScreen({ onPressContent, initialYear, }: TimelineScreenProps) {
-  const router = useRouter();const initialIndex = useMemo(() => {
-    const initialIndex = useMemo(() => {
-      if (initialYear != null && !Number.isNaN(initialYear)) {
-        const foundIndex = ERA_ITEMS.findIndex((item) => item.year === initialYear);
-        if (foundIndex >= 0) return foundIndex;
-      }
-  
-      return DEFAULT_INDEX;
-    }, [initialYear]);
-  
+export default function TimelineScreen({
+  onPressContent,
+  initialYear,
+}: TimelineScreenProps) {
+  const router = useRouter();
+
+  const initialIndex = useMemo(() => {
+    if (initialYear != null && !Number.isNaN(initialYear)) {
+      const foundIndex = ERA_ITEMS.findIndex((item) => item.year === initialYear);
+      if (foundIndex >= 0) return foundIndex;
+    }
+
+    return DEFAULT_INDEX;
+  }, [initialYear]);
+
+
     const [selectedIndex, setSelectedIndex] = useState(initialIndex);
   
     useEffect(() => {
@@ -224,6 +229,7 @@ export default function TimelineScreen({ onPressContent, initialYear, }: Timelin
 
   const [poiOpen, setPoiOpen] = useState(false);
 
+
   return (
     <View style={styles.screen}>
       <SafeAreaView style={styles.container}>
@@ -235,7 +241,7 @@ export default function TimelineScreen({ onPressContent, initialYear, }: Timelin
             contentPosition="right center"
             pointerEvents="none"
           />
-
+  
           <TouchableOpacity
             style={styles.homeButton}
             onPress={() => router.push('/GuideScreen')}
@@ -243,44 +249,46 @@ export default function TimelineScreen({ onPressContent, initialYear, }: Timelin
           >
             <Image source={HOME_ICON} style={styles.homeIcon} contentFit="contain" />
           </TouchableOpacity>
-
-          <View style={{flexDirection: "column", gap: 20}}>
-          <View style={styles.eraCard}>
-            <Text style={[styles.eraYear, { color: selectedEra.color }]}>
-              {selectedEra.year}
-            </Text>
-
-            <Text style={styles.eraName}>{selectedEraDefinition.name}</Text>
-
-            {selectedEraDefinition.timeframe ? (
-              <Text style={[styles.eraTimeframe, { color: selectedEra.color }]}>
-                {selectedEraDefinition.timeframe}
+  
+          <View style={{ flexDirection: 'column', gap: 20 }}>
+            <View style={styles.eraCard}>
+              <Text style={[styles.eraYear, { color: selectedEra.color }]}>
+                {selectedEra.year}
               </Text>
-            ) : null}
-
-            <Text style={styles.eraSummary}>{selectedEraDefinition.summary}</Text>
+  
+              <Text style={styles.eraName}>{selectedEraDefinition.name}</Text>
+  
+              {selectedEraDefinition.timeframe ? (
+                <Text style={[styles.eraTimeframe, { color: selectedEra.color }]}>
+                  {selectedEraDefinition.timeframe}
+                </Text>
+              ) : null}
+  
+              <Text style={styles.eraSummary}>{selectedEraDefinition.summary}</Text>
+            </View>
+            <PoiButton
+              description='This is a sample description text for the point of interest. It can be multiple lines long and provides more details about the hotspot.'
+              />
           </View>
+            <MapHotspot
+            top={500}
+            left={600}
+            iconSource={CULTURE_ICON}
+            imageSource={HOTSPOT_IMAGE}
+            isOpen={poiOpen}
+            onHotspotPress={() => setPoiOpen(!poiOpen)}
+            style={{ zIndex: 10, elevation: 10 }}
+            />
+  
         </View>
-
-        <View style={styles.timelinePanel}>
-          <TimelineScrubber
-            items={ERA_ITEMS}
-            initialIndex={DEFAULT_INDEX}
-            maxGapYears={40}
-            pixelsPerYear={3.8}
-            minGapPixels={20}
-            onSelect={(_, index) => setSelectedIndex(index)}
-          />
-        </View>
-
+  
         <View style={styles.bottomControls}>
-          {/* 🔥 MODIFIED: 只保留一个 toggle，位置放在 timeline 上方 */}
           <View style={styles.bottomToggleContainer}>
             <View style={styles.toggleWrapper}>
               <View style={styles.activeToggle}>
                 <Text style={styles.activeToggleText}>Timeline</Text>
               </View>
-
+  
               <TouchableOpacity
                 style={styles.inactiveToggle}
                 onPress={() => onPressContent?.(targetEraKey)}
@@ -290,8 +298,7 @@ export default function TimelineScreen({ onPressContent, initialYear, }: Timelin
               </TouchableOpacity>
             </View>
           </View>
-
-          {/* 🧱 MODIFIED: timeline 单独在最上层，和 svg 接触但不覆盖 */}
+  
           <View style={styles.timelinePanel}>
             <TimelineScrubber
               key={`timeline-${initialYear}`}
@@ -304,13 +311,10 @@ export default function TimelineScreen({ onPressContent, initialYear, }: Timelin
             />
           </View>
         </View>
-
-        
       </SafeAreaView>
     </View>
   );
-}
-
+              }
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
