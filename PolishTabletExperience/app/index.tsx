@@ -112,7 +112,11 @@ export default function IndexScreen() {
 	const selectedYear = year ? Number(year) : undefined;
 
 	if (view === 'content') {
-		return <ContentScreen onPressTimeline={() => setView('timeline')} />;
+		return (<ContentScreen initialEra={contentEra}
+			onPressTimeline={(year) => {
+			setTimelineYear(year);
+			setView('timeline');
+		}}  />);
 	}
 
 	return (
