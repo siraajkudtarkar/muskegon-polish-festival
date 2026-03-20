@@ -29,7 +29,7 @@ export default function GuideScreen() {
             <View style={{ marginVertical: 30, alignSelf: "flex-start" }}>
             <Text style={styles.cardText}>
                 <Text style={{ color: QuizResultColors.educatorGold }}>
-                The Educator
+                The Culture Buff
                 </Text>{" "}
                 from the
             </Text>
@@ -55,7 +55,7 @@ export default function GuideScreen() {
             <View style={{ marginVertical: 30, alignSelf: "flex-start" }}>
             <Text style={[styles.cardText, {paddingRight: 12}]}>
                 <Text style={{ color: QuizResultColors.writerBlue }}>
-                The Writer
+                The Unsung Hero Guide
                 </Text>{" "}
                 from the
             </Text>
@@ -108,7 +108,7 @@ export default function GuideScreen() {
             <View style={{ marginVertical: 30, alignSelf: "flex-start" }}>
             <Text style={styles.cardText}>
                 <Text style={{ color: QuizResultColors.explorerRed }}>
-                The Explorer
+                The Adventurer
                 </Text>{" "}
                 from the
             </Text>
