@@ -5,14 +5,13 @@ import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TimelineItem, TimelineScrubber } from '@/components/timeline-scrubber';
-import { FontFamily } from '@/constants/theme';
+import { FontFamily, MainColors } from '@/constants/theme';
 import { EraKey } from '@/constants/contentData';
 
 const HOME_ICON = require('@/assets/General_Icons/ Home_icon.svg');
 
 import MapHotspot from '@/components/MapHotspot';
-
-
+import PoiButton from '../PoiButton';
 
 type EraDefinition = {
   name: string;
@@ -124,6 +123,7 @@ const MAP_1991 = require('@/assets/maps_svg/1991.svg');
 const MAP_1993 = require('@/assets/maps_svg/1993, 2002, 2011.svg');
 
 const RIGHT_ALIGNED_MAP_POSITION = { right: 0, top: '32%' };
+const LEFT_BACKGROUND_VECTOR = require('@/assets/maps_svg/background-vector.svg');
 
 const CULTURE_ICON = require('@/assets/POI_Icon/POI_Culture.svg');
 const HOTSPOT_IMAGE = require('@/assets/content_images/CommunistPoland/CommunistPoland_1.png');
@@ -192,13 +192,30 @@ function getIndexFromYear(year: number) {
   return foundIndex >= 0 ? foundIndex : DEFAULT_INDEX;
 }
 
-export default function TimelineScreen({ onPressContent,
-  initialYear = 1635, }: TimelineScreenProps) {
+export default function TimelineScreen({
+  onPressContent,
+  initialYear,
+}: TimelineScreenProps) {
   const router = useRouter();
-  const [selectedIndex, setSelectedIndex] = useState(() => getIndexFromYear(initialYear));
-  useEffect(() => {
-    setSelectedIndex(getIndexFromYear(initialYear));
+
+  const initialIndex = useMemo(() => {
+    if (initialYear != null && !Number.isNaN(initialYear)) {
+      const foundIndex = ERA_ITEMS.findIndex((item) => item.year === initialYear);
+      if (foundIndex >= 0) return foundIndex;
+    }
+
+    return DEFAULT_INDEX;
   }, [initialYear]);
+
+
+    const [selectedIndex, setSelectedIndex] = useState(initialIndex);
+  
+    useEffect(() => {
+      setSelectedIndex(initialIndex);
+    }, [initialIndex]);
+  
+
+
   const selectedEra = useMemo(() => ERA_ITEMS[selectedIndex] ?? ERA_ITEMS[0], [selectedIndex]);
   const selectedEraDefinition = ERA_BY_NAME[selectedEra.label] ?? {
     name: selectedEra.label,
@@ -213,10 +230,16 @@ export default function TimelineScreen({ onPressContent,
 
   const [poiOpen, setPoiOpen] = useState(false);
 
+
   return (
     <View style={styles.screen}>
       <SafeAreaView style={styles.container}>
         <View style={styles.mapArea}>
+          <View style={styles.leftLandWaterLayer} pointerEvents="none">
+            <View style={styles.leftLandFill} />
+            <Image source={LEFT_BACKGROUND_VECTOR} style={styles.leftVectorImage} contentFit="fill" />
+          </View>
+
           <Image
             source={selectedEraMap}
             style={[styles.backgroundImage, { zIndex: 1 }]}
@@ -224,31 +247,36 @@ export default function TimelineScreen({ onPressContent,
             contentPosition="right center"
             pointerEvents="none"
           />
-
+  
           <TouchableOpacity
             style={styles.homeButton}
-            onPress={() => router.push('/modal')}
+            onPress={() => router.push('/GuideScreen')}
             activeOpacity={0.85}
           >
             <Image source={HOME_ICON} style={styles.homeIcon} contentFit="contain" />
           </TouchableOpacity>
-
-          <View style={styles.eraCard}>
-            <Text style={[styles.eraYear, { color: selectedEra.color }]}>
-              {selectedEra.year}
-            </Text>
-
-            <Text style={styles.eraName}>{selectedEraDefinition.name}</Text>
-
-            {selectedEraDefinition.timeframe ? (
-              <Text style={[styles.eraTimeframe, { color: selectedEra.color }]}>
-                {selectedEraDefinition.timeframe}
+  
+          <View style={{ flexDirection: 'column', gap: 20 }}>
+            <View style={styles.eraCard}>
+              <Text style={[styles.eraYear, { color: selectedEra.color }]}>
+                {selectedEra.year}
               </Text>
-            ) : null}
-
-            <Text style={styles.eraSummary}>{selectedEraDefinition.summary}</Text>
+  
+              <Text style={styles.eraName}>{selectedEraDefinition.name}</Text>
+  
+              {selectedEraDefinition.timeframe ? (
+                <Text style={[styles.eraTimeframe, { color: selectedEra.color }]}>
+                  {selectedEraDefinition.timeframe}
+                </Text>
+              ) : null}
+  
+              <Text style={styles.eraSummary}>{selectedEraDefinition.summary}</Text>
+            </View>
+            <PoiButton
+              description='This is a sample description text for the point of interest. It can be multiple lines long and provides more details about the hotspot.'
+              />
           </View>
-          <MapHotspot
+            <MapHotspot
             top={500}
             left={600}
             iconSource={CULTURE_ICON}
@@ -256,17 +284,17 @@ export default function TimelineScreen({ onPressContent,
             isOpen={poiOpen}
             onHotspotPress={() => setPoiOpen(!poiOpen)}
             style={{ zIndex: 10, elevation: 10 }}
-          />
+            />
+  
         </View>
-
+  
         <View style={styles.bottomControls}>
-          {/* 🔥 MODIFIED: 只保留一个 toggle，位置放在 timeline 上方 */}
           <View style={styles.bottomToggleContainer}>
             <View style={styles.toggleWrapper}>
               <View style={styles.activeToggle}>
                 <Text style={styles.activeToggleText}>Timeline</Text>
               </View>
-
+  
               <TouchableOpacity
                 style={styles.inactiveToggle}
                 onPress={() => onPressContent?.(targetEraKey)}
@@ -276,13 +304,12 @@ export default function TimelineScreen({ onPressContent,
               </TouchableOpacity>
             </View>
           </View>
-
-          {/* 🧱 MODIFIED: timeline 单独在最上层，和 svg 接触但不覆盖 */}
+  
           <View style={styles.timelinePanel}>
             <TimelineScrubber
               key={`timeline-${initialYear}`}
               items={ERA_ITEMS}
-              initialIndex={getIndexFromYear(initialYear)}
+              initialIndex={initialYear != null ? getIndexFromYear(initialYear) : DEFAULT_INDEX}
               maxGapYears={40}
               pixelsPerYear={3.8}
               minGapPixels={20}
@@ -290,22 +317,20 @@ export default function TimelineScreen({ onPressContent,
             />
           </View>
         </View>
-
-        
       </SafeAreaView>
     </View>
   );
-}
-
+              }
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: '#D3DCCD',
-    paddingBottom: 5,
+    paddingBottom: 0,
   },
 
   container: {
     flex: 1,
+    backgroundColor: '#D3DCCD',
   },
 
   mapArea: {
@@ -323,6 +348,29 @@ backgroundImage: {
   bottom: 0,
   left: '41%',
   zIndex: 1,
+},
+
+leftLandWaterLayer: {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  bottom: 0,
+  width: '44%',
+  zIndex: 0,
+  overflow: 'hidden',
+},
+
+leftLandFill: {
+  ...StyleSheet.absoluteFillObject,
+  backgroundColor: '#D3DCCD',
+},
+
+leftVectorImage: {
+  position: 'absolute',
+  top: -170,
+  left: 0,
+  right: 0,
+  height: '80%',
 },
 
   homeButton: {
@@ -346,7 +394,6 @@ backgroundImage: {
     padding: 16,
     borderRadius: 10,
     backgroundColor: 'rgba(241, 241, 241, 0.94)',
-    zIndex: 3,
   },
 
   eraYear: {
@@ -379,8 +426,9 @@ backgroundImage: {
   },
 
   bottomControls: {
-  zIndex: 5,
-},
+    zIndex: 5,
+    backgroundColor: '#D3DCCD',
+  },
 
 bottomToggleContainer: {
   position: 'absolute',
@@ -389,7 +437,6 @@ bottomToggleContainer: {
   zIndex: 20,
 },
 
-  // 🎨 MODIFIED: 完全照 Content page
   toggleWrapper: {
     flexDirection: 'row',
     backgroundColor: '#FFFFFF',
@@ -397,14 +444,12 @@ bottomToggleContainer: {
     padding: 2,
   },
 
-  // 🎨 MODIFIED: 去掉 minWidth，padding 改成和 Content page 一样
   inactiveToggle: {
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 40,
   },
 
-  // 🎨 MODIFIED: 去掉 minWidth，padding 改成和 Content page 一样
   activeToggle: {
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -426,10 +471,10 @@ bottomToggleContainer: {
     fontFamily: FontFamily.interMedium,
   },
 
-  // 🧱 MODIFIED: timeline 在最上层显示
   timelinePanel: {
-  height: 88,
-  justifyContent: 'flex-end',
-  zIndex: 10,
-},
+    height: 88,
+    justifyContent: 'flex-end',
+    zIndex: 10,
+    backgroundColor: '#D3DCCD',
+  },
 });
